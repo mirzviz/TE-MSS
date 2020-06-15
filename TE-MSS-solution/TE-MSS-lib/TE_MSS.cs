@@ -82,5 +82,53 @@ namespace TE_MSS
             else
                 return false;
         }
+
+        public bool CreateMssObjectWithInsertPoint(string mssString, double xCoord, double yCoord)
+        {
+            if (mssString != null && mssString != String.Empty)
+            {
+                //create mss string object from mss xml string
+                MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);
+                //create symbol graphic
+                IMssSymbolGraphicGS symbolGraphic = symbolProvider.CreateSymbolGraphic(mssStringObj, symbolFormat);
+                if ((symbolGraphic != null) && symbolGraphic.IsValid)
+                {
+                    //get Bitmap programmatically
+                    Bitmap symbolBmp = GraphicExtensions.CreateBitmap(symbolGraphic, Color.White);
+                    using (Graphics graphics = Graphics.FromImage(symbolBmp))
+                    {
+                        DrawMarker(symbolGraphic.InsertPointOffsetX, symbolGraphic.InsertPointOffsetY, graphics);
+                    }
+                    symbolBmp.Save(@"C:\mss_bitmaps\symbol.jpg");
+                }
+                //TODO: AltitudeTypeCode.ATC_ON_TERRAIN doesn't work 
+                IPosition71 position = m_Sgworld.Creator.CreatePosition(xCoord, yCoord, 0, AltitudeTypeCode.ATC_ON_TERRAIN, 0, 0, 0, 5000);
+                ITerrainImageLabel71 terrainImageLabel71 = m_Sgworld.Creator.CreateImageLabel(position, @"C:\mss_bitmaps\symbol.jpg", null, "", "mss symbol"); //add "mss symbol" under root in TE tree
+                m_Sgworld.Navigate.FlyTo(position, ActionCode.AC_FLYTO);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private static void DrawMarker(int markerPointX, int markerPointY, Graphics graphics)
+        {
+            const int insertPointMarkerHalfSize = 2;
+            Rectangle markerRect = Rectangle.FromLTRB(
+                markerPointX - insertPointMarkerHalfSize,
+                markerPointY - insertPointMarkerHalfSize,
+                markerPointX + insertPointMarkerHalfSize - 1,
+                markerPointY + insertPointMarkerHalfSize - 1);
+
+            using (Brush brush = new SolidBrush(Color.Red))
+            {
+                graphics.FillRectangle(brush, markerRect);
+            }
+            using (Pen pen = new Pen(Color.Maroon))
+            {
+                graphics.DrawRectangle(pen, markerRect);
+            }
+        }
     }
 }
