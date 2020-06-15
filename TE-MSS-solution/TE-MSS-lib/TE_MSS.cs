@@ -29,20 +29,22 @@ namespace TE_MSS
         {
             try
             {
-                m_Sgworld = new SGWorld71();    //Terra Explorer 
-
-                symbolProviderService = new MssSymbolProviderServiceGS();   //GSS Symbol Provider
-
+                //Terra Explorer 
+                m_Sgworld = new SGWorld71();
+                //GSS Symbol Provider
+                symbolProviderService = new MssSymbolProviderServiceGS();   
+                //get exe path for license
                 string exePath = Application.ExecutablePath;
                 string license = symbolProviderService.GetDefaultLicense(exePath);
                 symbolProviderService.InitLicense(license);
-                //symbolProviderService.OwnerHandle = Handle.ToInt32();     //works without handle                                  
-
+                //for form applications:
+                //symbolProviderService.OwnerHandle = Handle.ToInt32();                                     
+                //sybol provider
                 string libName = symbolProviderService.GetDefaultLibrary(exePath);
                 symbolProvider = symbolProviderService.LoadLibrary(libName, 100);
                 symbolProvider.DefaultRenderingOptions.RenderingCanvasType = TMssRenderingCanvasTypeGS.mssRenderingCanvasTypeDirect2dGS;
                 symbolProvider.SupportedModifiersEx[TMssWorkModeGS.mssWorkModeExtendedGS].Modifiers_Base &= ~TMssModifiers_BaseGS.mssModifierN_HostileGS;
-
+                //synbol format
                 symbolFormat = symbolProviderService.CreateFormatObj();
                 symbolFormat.SymbolSize = 60;
                 symbolFormat.WorkMode = TMssWorkModeGS.mssWorkModeExtendedGS;
@@ -50,7 +52,7 @@ namespace TE_MSS
             }
             catch (Exception E)
             {
-                MessageBox.Show("Error loading MSS Server: " + E.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Error loading MSS Server: " + E.Message + "Error");
                 Environment.Exit(1);
             }
         }
@@ -59,15 +61,19 @@ namespace TE_MSS
         {
             if (mssString != null && mssString != String.Empty)
             {
-                MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);     //create mss string object from mss xml string
-                IMssSymbolGraphicGS symbolGraphic = symbolProvider.CreateSymbolGraphic(mssStringObj, symbolFormat);    //create symbol graphic
+                //create mss string object from mss xml string
+                MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);
+                //create symbol graphic
+                IMssSymbolGraphicGS symbolGraphic = symbolProvider.CreateSymbolGraphic(mssStringObj, symbolFormat);    
                 if ((symbolGraphic != null) && symbolGraphic.IsValid)
                 {
-                    //Bitmap symbolBmp = GraphicExtensions.CreateBitmap(symbolGraphic, Color.White);       //get Bitmap programmatically
-                    symbolGraphic.ExportToFile(@"C:\mss_bitmaps\symbol.jpg");    //exprot to file on hard drive
+                    //get Bitmap programmatically
+                    //Bitmap symbolBmp = GraphicExtensions.CreateBitmap(symbolGraphic, Color.White);       
+                    //exprot to file on hard drive
+                    symbolGraphic.ExportToFile(@"C:\mss_bitmaps\symbol.jpg");    
                 }
-
-                IPosition71 position = m_Sgworld.Creator.CreatePosition(xCoord, yCoord, 0, AltitudeTypeCode.ATC_ON_TERRAIN, 0, 0, 0, 5000);    //AltitudeTypeCode.ATC_ON_TERRAIN doesn't work
+                //TODO: AltitudeTypeCode.ATC_ON_TERRAIN doesn't work 
+                IPosition71 position = m_Sgworld.Creator.CreatePosition(xCoord, yCoord, 0, AltitudeTypeCode.ATC_ON_TERRAIN, 0, 0, 0, 5000);    
                 ITerrainImageLabel71 terrainImageLabel71 = m_Sgworld.Creator.CreateImageLabel(position, @"C:\mss_bitmaps\symbol.jpg", null, "", "mss symbol"); //add "mss symbol" under root in TE tree
                 m_Sgworld.Navigate.FlyTo(position, ActionCode.AC_FLYTO);
 
