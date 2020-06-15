@@ -40,12 +40,12 @@
             this.axTE3DWindow1.Location = new System.Drawing.Point(12, 12);
             this.axTE3DWindow1.Name = "axTE3DWindow1";
             this.axTE3DWindow1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTE3DWindow1.OcxState")));
-            this.axTE3DWindow1.Size = new System.Drawing.Size(483, 426);
+            this.axTE3DWindow1.Size = new System.Drawing.Size(1034, 659);
             this.axTE3DWindow1.TabIndex = 0;
             // 
             // buttonAddToMap
             // 
-            this.buttonAddToMap.Location = new System.Drawing.Point(539, 29);
+            this.buttonAddToMap.Location = new System.Drawing.Point(1086, 21);
             this.buttonAddToMap.Name = "buttonAddToMap";
             this.buttonAddToMap.Size = new System.Drawing.Size(151, 33);
             this.buttonAddToMap.TabIndex = 1;
@@ -57,7 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1280, 699);
             this.Controls.Add(this.buttonAddToMap);
             this.Controls.Add(this.axTE3DWindow1);
             this.Name = "Form1";
