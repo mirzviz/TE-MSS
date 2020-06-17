@@ -57,6 +57,43 @@ namespace TE_MSS
             }
         }
 
+        public bool CreateNPointObject(string mssString, double xCoord, double yCoord)
+        {
+            if (mssString != null && mssString != String.Empty)
+            {
+                //create mss string object from mss xml string
+                MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);
+                //create NPointGraphicTemplate
+                MssNPointGraphicTemplateGS mssNPointGraphicTemplateGS = symbolProvider.CreateNPointGraphic(mssStringObj, symbolFormat);
+                //create MssSymbolGraphicGS
+                TMssPointGS[] points = new TMssPointGS[] {
+                                                            new TMssPointGS() { X = 80, Y = 90 },
+                                                            new TMssPointGS() { X = 300, Y = 340 }
+                                                            };
+
+                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, 2, 1);
+
+                if (mssSymbolGraphicGS != null)
+                {
+                    if (mssSymbolGraphicGS.IsValid)
+                    {
+                        //get Bitmap programmatically
+                        //Bitmap symbolBmp = GraphicExtensions.CreateBitmap(symbolGraphic, Color.White);       
+                        //exprot to file on hard drive
+                        mssSymbolGraphicGS.ExportToFile(@"C:\mss_bitmaps\NPointSymbol.jpg");
+                    }
+                }
+                //TODO: AltitudeTypeCode.ATC_ON_TERRAIN doesn't work 
+                IPosition71 position = m_Sgworld.Creator.CreatePosition(xCoord, yCoord, 0, AltitudeTypeCode.ATC_ON_TERRAIN, 0, 0, 0, 5000);
+                ITerrainImageLabel71 terrainImageLabel71 = m_Sgworld.Creator.CreateImageLabel(position, @"C:\mss_bitmaps\NPointSymbol.jpg", null, "", "mss symbol"); //add "mss symbol" under root in TE tree
+                m_Sgworld.Navigate.FlyTo(position, ActionCode.AC_FLYTO);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
         public bool CreateMssObject(string mssString, double xCoord, double yCoord)
         {
             if (mssString != null && mssString != String.Empty)
@@ -64,7 +101,14 @@ namespace TE_MSS
                 //create mss string object from mss xml string
                 MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);
                 //create symbol graphic
-                IMssSymbolGraphicGS symbolGraphic = symbolProvider.CreateSymbolGraphic(mssStringObj, symbolFormat);    
+                IMssSymbolGraphicGS symbolGraphic = symbolProvider.CreateSymbolGraphic(mssStringObj, symbolFormat);
+                MssNPointGraphicTemplateGS mssNPointGraphicTemplateGS = symbolProvider.CreateNPointGraphic(mssStringObj, symbolFormat);
+                TMssPointGS[] points = new TMssPointGS[] { 
+                                                            new TMssPointGS() { X = 80, Y = 90 },
+                                                            new TMssPointGS() { X = 300, Y = 340 } 
+                                                            };
+
+                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, 2, 1);
                 if ((symbolGraphic != null) && symbolGraphic.IsValid)
                 {
                     //get Bitmap programmatically

@@ -23,7 +23,9 @@ namespace TEdemo
         {
             m_TEMSS.initializeTEMss();
             //m_TEMSS.CreateMssObject("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
-            m_TEMSS.CreateMssObjectWithInsertPoint("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
+            //m_TEMSS.CreateMssObjectWithInsertPoint("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
+            //TODO: get N Point strings
+            m_TEMSS.CreateNPointObject("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
         }
     }
 }
