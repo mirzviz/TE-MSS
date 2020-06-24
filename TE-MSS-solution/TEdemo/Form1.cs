@@ -25,7 +25,13 @@ namespace TEdemo
             //m_TEMSS.CreateMssObject("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
             //m_TEMSS.CreateMssObjectWithInsertPoint("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
             //TODO: get N Point strings
-            m_TEMSS.CreateNPointObject("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);
+            /*m_TEMSS.CreateNPointObject("<Symbol ID=\"SFGPUCI----F---\"><Attribute ID=\"M\">2</Attribute><Attribute ID=\"T\">1</Attribute></Symbol>", -122.49460, 37.78816);*/
+            /*m_TEMSS.CreateNPointObject("<Symbol ID=\"SFGPUSMM--AF---\"><Attribute ID=\"XE\">9SCHUNB--------</Attribute></Symbol>", -122.49460, 37.78816);*/
+
+            //3 points
+            //m_TEMSS.CreateNPointObject("<Symbol ID=\"GFTPB----------\"/>", -122.49460, 37.78816); 
+
+            m_TEMSS.CreateNPointObject("<Symbol ID=\"GFGPGLB----I---\"><Attribute ID=\"T\">a</Attribute><Attribute ID=\"T1\">b</Attribute></Symbol>", -122.49460, 37.78816);
         }
     }
 }

@@ -35,7 +35,8 @@ namespace TE_MSS
                 symbolProviderService = new MssSymbolProviderServiceGS();   
                 //get exe path for license
                 string exePath = Application.ExecutablePath;
-                string license = symbolProviderService.GetDefaultLicense(exePath);
+                /*string license = symbolProviderService.GetDefaultLicense(exePath);*/
+                string license = "IIT_TESTKEY.2021.12.31_8A3EFBEA95A633A03F69840E0C0CC9FC023A9AEA";
                 symbolProviderService.InitLicense(license);
                 //for form applications:
                 //symbolProviderService.OwnerHandle = Handle.ToInt32();                                     
@@ -65,13 +66,24 @@ namespace TE_MSS
                 MssStringObjGS mssStringObj = symbolProviderService.CreateMssStringObjStr(mssString);
                 //create NPointGraphicTemplate
                 MssNPointGraphicTemplateGS mssNPointGraphicTemplateGS = symbolProvider.CreateNPointGraphic(mssStringObj, symbolFormat);
+                
                 //create MssSymbolGraphicGS
                 TMssPointGS[] points = new TMssPointGS[] {
-                                                            new TMssPointGS() { X = 80, Y = 90 },
-                                                            new TMssPointGS() { X = 300, Y = 340 }
+                                                             new TMssPointGS() { X = 0, Y = 0},
+                                                             new TMssPointGS() { X = 100, Y =  0},
+                                                              new TMssPointGS() { X = 100, Y = 100},
+                                                              new TMssPointGS() { X = 0, Y = 100 }
                                                             };
 
-                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, 2, 1);
+                //MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, points.Length, 50);
+
+                TMssRectGS visibleRect = new TMssRectGS();
+                visibleRect.Bottom = 0;
+                visibleRect.Top = 0;
+                visibleRect.Left = 0;
+                visibleRect.Right = 0;
+
+                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImageEx(points, points.Length, visibleRect, 50);
 
                 if (mssSymbolGraphicGS != null)
                 {
@@ -80,12 +92,19 @@ namespace TE_MSS
                         //get Bitmap programmatically
                         //Bitmap symbolBmp = GraphicExtensions.CreateBitmap(symbolGraphic, Color.White);       
                         //exprot to file on hard drive
-                        mssSymbolGraphicGS.ExportToFile(@"C:\mss_bitmaps\NPointSymbol.jpg");
+                        /*TMssModifiersGS assignedDisplayableModifiers = mssSymbolGraphicGS.AssignedDisplayableModifiers;*/
+                        mssSymbolGraphicGS.ExportToFile(@"C:\mss_bitmaps\NPointSymbolEx.jpg");
+                    }
+                    else
+                    {
+                        Console.WriteLine(mssSymbolGraphicGS.ErrorMsg);
+                        throw new Exception("error, read output");
                     }
                 }
+
                 //TODO: AltitudeTypeCode.ATC_ON_TERRAIN doesn't work 
                 IPosition71 position = m_Sgworld.Creator.CreatePosition(xCoord, yCoord, 0, AltitudeTypeCode.ATC_ON_TERRAIN, 0, 0, 0, 5000);
-                ITerrainImageLabel71 terrainImageLabel71 = m_Sgworld.Creator.CreateImageLabel(position, @"C:\mss_bitmaps\NPointSymbol.jpg", null, "", "mss symbol"); //add "mss symbol" under root in TE tree
+                ITerrainImageLabel71 terrainImageLabel71 = m_Sgworld.Creator.CreateImageLabel(position, @"C:\mss_bitmaps\NPointSymbolEx.jpg", null, "", "mss symbol"); //add "mss symbol" under root in TE tree
                 m_Sgworld.Navigate.FlyTo(position, ActionCode.AC_FLYTO);
 
                 return true;
