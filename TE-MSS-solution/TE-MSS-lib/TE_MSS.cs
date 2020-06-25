@@ -69,21 +69,22 @@ namespace TE_MSS
                 
                 //create MssSymbolGraphicGS
                 TMssPointGS[] points = new TMssPointGS[] {
-                                                             new TMssPointGS() { X = 0, Y = 0},
-                                                             new TMssPointGS() { X = 100, Y =  0},
-                                                              new TMssPointGS() { X = 100, Y = 100},
-                                                              new TMssPointGS() { X = 0, Y = 100 }
+                                                             new TMssPointGS() { X = 20, Y = 20},
+                                                             new TMssPointGS() { X = 100, Y =  20},
+                                                              new TMssPointGS() { X = 80, Y = 100},
+                                                              new TMssPointGS() { X = 20, Y = 40 }
                                                             };
 
-                //MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, points.Length, 50);
 
                 TMssRectGS visibleRect = new TMssRectGS();
-                visibleRect.Bottom = 0;
-                visibleRect.Top = 0;
-                visibleRect.Left = 0;
-                visibleRect.Right = 0;
+                                    visibleRect.Top = 10;
+                visibleRect.Left = 10;          visibleRect.Right = 90;
+                                        visibleRect.Bottom = 90;
 
-                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImageEx(points, points.Length, visibleRect, 50);
+
+                /*MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImage(points, points.Length, 96);*/
+
+                MssSymbolGraphicGS mssSymbolGraphicGS = mssNPointGraphicTemplateGS.RenderImageEx(points, points.Length, visibleRect, 96);
 
                 if (mssSymbolGraphicGS != null)
                 {
